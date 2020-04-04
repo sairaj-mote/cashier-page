@@ -667,10 +667,6 @@ input:invalid {
 
 #main_header {
   padding: 1em 0;
-  text-align: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
 }
 
 #main_header .tag {
@@ -710,21 +706,20 @@ input:invalid {
 #navbar .navbar-item {
   text-align: center;
   cursor: pointer;
-  padding: 1em;
+  padding: 0.6em;
   border-radius: 0.4em;
   color: #ffffff80;
-  margin: 0.4em;
+  width: 100%;
   font-size: 0.9em;
   text-transform: uppercase;
 }
 
 #navbar .navbar-item .icon {
-  height: 1.6rem;
-  width: 1.6rem;
+  height: 1.2rem;
+  width: 1.2rem;
   fill: none;
   stroke: #ffffff80;
   stroke-width: 6;
-  margin-bottom: 0.4em;
 }
 
 #navbar .active {
@@ -778,7 +773,6 @@ input:invalid {
 .request .action {
   -ms-flex-item-align: end;
       align-self: flex-end;
-  border: 1px solid var(--primary-color);
 }
 
 .request .amount {
@@ -884,6 +878,15 @@ input:invalid {
     top: 0;
     right: auto;
     width: 6rem;
+  }
+  #navbar .navbar-item {
+    width: auto;
+    margin: 1em 0;
+  }
+  #navbar .navbar-item .icon {
+    height: 1.6rem;
+    width: 1.6rem;
+    margin-bottom: 0.4em;
   }
 }
 

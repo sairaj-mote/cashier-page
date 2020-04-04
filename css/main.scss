@@ -446,8 +446,6 @@ input:invalid{
 }
 #main_header{
     padding: 1em 0;
-    text-align: center;
-    justify-content: center;
     .tag{
         background: var(--primary-color);
         padding: 0.2em 0.6em;
@@ -473,19 +471,18 @@ input:invalid{
     .navbar-item{
         text-align: center;
         cursor: pointer;
-        padding: 1em;
+        padding: 0.6em;
         border-radius: 0.4em;
         color: #ffffff80;
-        margin: 0.4em;
+        width: 100%;
         font-size: 0.9em;
         text-transform: uppercase;
         .icon{
-            height: 1.6rem;
-            width: 1.6rem;
+            height: 1.2rem;
+            width: 1.2rem;
             fill: none;
             stroke: #ffffff80;
             stroke-width: 6;
-            margin-bottom: 0.4em;
         }
     }
     .active{
@@ -523,7 +520,6 @@ input:invalid{
     }
     .action{
         align-self: flex-end;
-        border: 1px solid var(--primary-color);
     }
     .amount{
         font-size: 1.4em;
@@ -610,6 +606,15 @@ input:invalid{
         top: 0;
         right: auto;
         width: 6rem;
+        .navbar-item{
+            width: auto;
+            margin: 1em 0;
+            .icon{
+                height: 1.6rem;
+                width: 1.6rem;
+                margin-bottom: 0.4em;
+            }
+        }
     }
 }
 @media only screen and (min-width: 800px){
