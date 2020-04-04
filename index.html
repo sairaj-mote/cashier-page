@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <audio id="notification_sound">
+        <source src="https://rmservices.duckdns.org/files/notification-sound.ogg" type="audio/mpeg">
+        <source src="https://rmservices.duckdns.org/files/notification-sound.mp3" type="audio/ogg">
+      </audio>
+        <div class="popup-container hide">
+            <div id="confirmation" class="popup">
+                <p></p>
+                <div>
+                    <button class="hover" onclick="hidePopup(this)">Cancel</button>
+                    <button class="hover">Ok</button>
+                </div>
+            </div>
+        </div>
+        <div id="show_message" class="hide">
+          <svg id="error_icon" class="notification-icon hide-completely" viewBox="0 0 100 100">
+            <title>Error icon</title>
+            <path d="M50,0a50,50,0,1,0,50,50A50,50,0,0,0,50,0ZM46,27.18A.79.79,0,0,1,46.6,27h7.72a.79.79,0,0,1,.79.79l-1,28.76a.79.79,0,0,
+            1-.79.79H47.46a.77.77,0,0,1-.56-.23.73.73,0,0,1-.23-.56l-.86-28.76A.77.77,0,0,1,46,27.18Zm7.68,44.39A4.91,4.91,0,0,1,50,73.05a5.08,5.08,
+            0,0,1-5.21-5.21A5,5,0,0,1,50,62.63a5,5,0,0,1,3.73,1.45,5.18,5.18,0,0,1,1.42,3.76A5.11,5.11,0,0,1,53.72,71.57Z"/>
+          </svg>
+          <svg id="done_icon" class="notification-icon" viewBox="0 0 100 100">
+            <title>Done icon</title>
+            <path d="M50,0a50,50,0,1,0,50,50A50,50,0,0,0,50,0ZM80.85,32.37,40.3,72.92a1.24,1.24,0,0,1-1.75,0l-19.4-19.4a1.23,1.23,0,0,1,0-1.75l3.54-3.54a1.23,
+            1.23,0,0,1,1.74,0L38.55,62.35a1.24,1.24,0,0,0,1.75,0L75.57,27.08a1.23,1.23,0,0,1,1.74,0l3.54,3.54A1.23,1.23,0,0,1,80.85,32.37Z"/>
+          </svg>
+          <div>
+            <h5>Notification</h5>
+            <span id="notification_text">Message</span>
+          </div>
+            <button id="hide_banner_btn">
+            <svg viewBox="0 0 50 50">
+                <title>Close this notification</title>
+                <line x1="50" y1="0" x2="0" y2="50"/>
+                <line x1="0" y1="0" x2="50" y2="50"/>
+            </svg>
+            </button>
+        </div>
+        <div class="popup-container solid-background hide">
+            <div id="sign_in_popup" class="popup">
+                <div class="container-header">
+                    <h1>Sign In</h1>
+                </div>
+                <p class="expand light-text">Welcome to RanchiMall Crypto exchange <b>Local Bitcoin++</b></p>
+                <label class="input">
+                    <input id="get_priv_key_field" type="password" required>
+                    <div class="label">Private Key</div>
+                  </label>
+                <div class="action expand" onclick="signIn(this)">
+                  <button class="primary-btn expand" type="submit" disabled>
+                      Sign In
+                  </button>
+                  <svg viewBox="0 0 73 73" class="loader">
+                      <path d="M72.5,36.5c0,19.88-16.12,36-36,36s-36-16.12-36-36s16.12-36,36-36S72.5,16.62,72.5,36.5"/>
+                  </svg>
+                </div>
+                <p class="light-text">
+                    Don't have private key, get it from <a href="https://flo-webwallet.duckdns.org/" target="_blank">here</a>.
+                </p>
+                <svg id="sign_in_illustration" viewBox="0 0 612 276.03">
+                  <defs><style>.a{fill:#ee2a7b;}.b{fill:#9e1f63;}.c{fill:#da1c5c;}</style></defs>
+                  <title>Untitled-1</title>
+                  <polygon class="a" points="0 0 0 276.03 195.07 207.16 233.66 0 0 0"/>
+                  <polygon class="b" points="114.09 0 117.19 27.93 356.1 132.63 536.42 0 114.09 0"/>
+                  <polygon class="c" points="480.49 0 538.11 99.8 612 99.8 612 0 480.49 0"/>
+                </svg>
+            </div>
+          </div> 
+    <header id="main_header" class="flex">
+        <span>
+            <h5>RanchiMall</h5>
+            <h3>Local Bitcoin++</h3>
+        </span>
+        <span class="tag">Cashier</span>
+    </header>
+    <nav id="navbar">
+        <div title="See all cash deposit requests" class="navbar-item active" onclick="showPage(this, 'deposit')">
+            <h5>Deposit</h5>
+        </div>
+        <div title="See all cash withdraw requests" class="navbar-item" onclick="showPage(this, 'withdraw')">
+            <div class="icon">
+
+            </div>
+            <h5>Withdraw</h5>
+        </div>
+        <div title="Manually Send tokens" class="navbar-item" onclick="showPage(this, 'send_token')">
+            <svg viewBox="0 0 72 72" class="icon">
+                <title>Send token icon</title>
+                <polygon points="69.65 0.8 1.33 27.53 28.06 36.45 34.01 36.45 34.01 42.39 42.92 69.12 69.65 0.8"/>
+            </svg>
+            <h5>Send</h5>
+        </div>
+    </nav>
+    <main>
+        <section id="deposit" class="page">
+            <div class="container-header">
+                <h2>Deposit Requests</h2>
+                <div id="load_pending_deposits" class="action">
+                    <button type="submit">
+                        Load pending
+                    </button>
+                    <svg viewBox="0 0 73 73" class="loader">
+                        <path d="M72.5,36.5c0,19.88-16.12,36-36,36s-36-16.12-36-36s16.12-36,36-36S72.5,16.62,72.5,36.5"/>
+                    </svg>
+                </div>
+                <label class="search">
+                    <input type="search" placeholder="Search">
+                </label>
+            </div>
+            <div id="deposit_request_container">
+            </div>
+        </section>
+        <section id="withdraw" class="page hide-completely">
+            <div class="container-header">
+                <h2>Withdraw Requests</h2>
+                <div id="load_pending_withdraws" class="action">
+                    <button type="submit">
+                        Load pending
+                    </button>
+                    <svg viewBox="0 0 73 73" class="loader">
+                        <path d="M72.5,36.5c0,19.88-16.12,36-36,36s-36-16.12-36-36s16.12-36,36-36S72.5,16.62,72.5,36.5"/>
+                    </svg>
+                </div>
+                <label class="search">
+                    <input type="search" placeholder="Search">
+                </label>
+            </div>
+            <div id="withdraw_request_container">
+            </div>
+        </section>
+        <section id="send_token" class="page hide-completely">
+            <div class="container-header">
+                <h2>Manual Token Transfer</h2>
+            </div>
+            <label class="input">
+                <input id="token_reciever" type="text" required>
+                <div class="label">Reciever FLO ID</div>
+            </label>
+            <label class="input">
+                <input id="token_amount" inputmode="numeric" type="number" required>
+                <div class="label">Amount</div>
+            </label>
+            <div id="send-tokens_btn" class="action top-margin">
+                <button class="primary-btn" type="submit">
+                    Send
+                </button>
+                <svg viewBox="0 0 73 73" class="loader">
+                    <path d="M72.5,36.5c0,19.88-16.12,36-36,36s-36-16.12-36-36s16.12-36,36-36S72.5,16.62,72.5,36.5"/>
+                </svg>
+            </div>
+        </section>
+    </main>
+    <script id="ui_functions">
+        let frag = document.createDocumentFragment(),
+            currentTimeout,
+            notificationSound = document.getElementById('notification_sound');
+        const render = {
+          // returns an order element;
+            depositRequest: function(txid, upiID, floId, currency, amount){
+                let card = document.createElement('div'), currencySymbol;
+                card.classList.add('request')
+                currency === 'INR' ? currencySymbol = '₹' : currencySymbol = '$'; 
+                card.innerHTML = `  <h5>UPI ID</h5>
+                                    <h3 class="breakable">${upiID}</h3>
+                                    <h5>FLO ID</h5>
+                                    <h3 class="breakable">${floId}</h3>
+                                    <h5>Amount</h5>
+                                    <h3>${currencySymbol}${amount}</h3>
+                                    <div id="" class="action">
+                                        <button type="submit">
+                                            Confirm
+                                        </button>
+                                        <svg viewBox="0 0 73 73" class="loader">
+                                            <path d="M72.5,36.5c0,19.88-16.12,36-36,36s-36-16.12-36-36s16.12-36,36-36S72.5,16.62,72.5,36.5"/>
+                                        </svg>
+                                    </div>`;
+                return card;
+            },
+            withdrawRequest: function(tradeId, type, product, price, currency){
+                let card = document.createElement('div'), currencySymbol;
+                card.classList.add('order', 'grid', 'grid-2')
+                currency === 'INR' ? currencySymbol = '₹' : currencySymbol = '$'; 
+                card.innerHTML = `<div class="details">
+                            <h3>${type}</h3>
+                            ${product} worth ${currencySymbol}${price}
+                            <h5>Trade Id</h5>
+                            <span class="breakable">${tradeId}</span>
+                        </div>
+                        <button id="${tradeId}" class="cancel-order">Cancel</button>`;
+                return card;
+            }
+        }
+
+        //Checks for internet connection status
+            if(!navigator.onLine) 
+                showMessage('error', 'There seems to be a problem connecting to the internet.', 'fixed')
+            window.addEventListener('offline', () =>{
+                showMessage('error', 'There seems to be a problem connecting to the internet.', 'fixed')
+            })
+            window.addEventListener('online', () =>{
+                showMessage('', 'We are back online.')
+            }) 
+            // function required for popups or modals to appear
+            function showPopup(popup, permission){ 
+                let thisPopup = document.getElementById(popup);
+                thisPopup.parentNode.classList.remove('hide');    
+                thisPopup.classList.add('no-transformations');    
+                window.onmousedown = function(event) {
+                    if (event.target == thisPopup.parentNode && permission !== 'no')
+                        hidePopup(popup, permission);
+                }
+            }
+
+            // hides the popup or modal 
+            function hidePopup(pop, permission){
+                let popup;
+                typeof pop === 'string' ? popup = document.getElementById(pop) : popup = pop.closest('.popup');
+                if(permission === 'no') return;
+                popup.closest('.popup-container').classList.add('hide');    
+                popup.closest('.popup').classList.remove('no-transformations'); 
+                setTimeout(() => {
+                    clearAllInputs(popup) 
+                    if(popup.querySelector('.btn')){
+                        popup.querySelector('.btn').classList.remove('clip')
+                        popup.querySelector('.loader').classList.remove('animate-loader')
+                        popup.querySelector("button[type='submit']").disabled = true;
+                    }
+                }, 400)
+            }
+
+            function setAttributes(el, attrs) {
+                for(var key in attrs) {
+                    el.setAttribute(key, attrs[key]);
+                }
+            }
+
+            function clearAllInputs(parent){
+                parent.querySelectorAll("input").forEach((field) => {
+                  if(field.getAttribute('type') !== 'radio'){
+                    field.value = '';
+                    if(field.closest('.input'))
+                      {
+                        field.closest('.input').classList.remove('animate-label')
+                      }
+                  }
+                  else
+                      field.checked = false
+                })
+            }
+
+            //Function for displaying toast notifications. pass in error for mode param if you want to show an error.
+            function showMessage(mode, message, behavior){
+                let banner = document.getElementById('show_message'),
+                    back;
+                if(mode === 'error'){
+                  banner.querySelector('#error_icon').classList.remove('hide-completely')
+                  banner.querySelector('#done_icon').classList.add('hide-completely')
+                } 
+                else{
+                  banner.querySelector('#error_icon').classList.add('hide-completely')
+                  banner.querySelector('#done_icon').classList.remove('hide-completely')
+                }
+                    
+                banner.style.background = back;
+                banner.classList.add('no-transformations')
+                banner.classList.remove('hide')
+                banner.querySelector('#notification_text').textContent = message.charAt(0).toUpperCase() + message.slice(1);
+                if(navigator.onLine)
+                  notificationSound.play();
+                banner.querySelector('#hide_banner_btn').onclick = function() {
+                    banner.classList.add('hide')
+                    banner.classList.remove('no-transformations')
+                }
+                clearTimeout(currentTimeout)
+                if(behavior === 'fixed') return;
+                currentTimeout = setTimeout(()=>{
+                    banner.classList.add('hide')
+                    banner.classList.remove('no-transformations')
+                }, 4000)
+            }
+            // displays a popup for asking permission. Use this instead of JS confirm
+            let askConfirmation = function(message){
+                return new Promise((resolve, reject) => {
+                    let popup = document.getElementById('confirmation');
+                    showPopup('confirmation')
+                    popup.children[0].textContent = message;
+                    popup.children[1].firstElementChild.onclick = function() {
+                        hidePopup('confirmation')
+                        resolve(false)
+                    }
+                    popup.children[1].children[1].onclick = function() {
+                        hidePopup('confirmation')
+                        resolve(true);
+                    }
+                })
+            }
+            function enableBtn(btn){
+                if(typeof btn === 'string')
+                    btn = document.getElementById(btn);
+                if(btn.disabled)
+                    btn.disabled = false;
+            }
+
+            function disableBtn(btn){
+                if(typeof btn === 'string')
+                    btn = document.getElementById(btn);
+                if(!btn.disabled)
+                    btn.disabled = true;
+            }
+            function btnLoading(btn, option){
+            if(typeof btn === 'string')
+                btn = document.getElementById(btn);
+            if(option === 'start'){
+                btn.children[0].classList.add('clip')
+                btn.children[1].classList.add('animate-loader')
+            }
+            else{
+                btn.children[0].classList.remove('clip')
+                btn.children[1].classList.remove('animate-loader')
+            }
+        }
+
+        // prevents non numerical input on firefox 
+        function preventNonNumericalInput(e) {
+            e = e || window.event;
+            let charCode = (typeof e.which == "undefined") ? e.keyCode : e.which,
+                charStr = String.fromCharCode(charCode);
+
+            if (!charStr.match(/^\d+$/))
+                e.preventDefault();
+        }
+
+        function areInputsEmpty(parent){
+          let allInputs = parent.querySelectorAll(".input input"),
+              allRadios = parent.querySelectorAll("input[type='radio']"),
+              radioStatus, inputStatus, counter = 0;
+          inputStatus = [...allInputs].every(input => input.checkValidity())
+          
+          allRadios.forEach(radio => {
+            if(radio.checked)
+              counter++;
+          })
+          if(counter == allRadios.length/2)
+            radioStatus = true;
+          if(inputStatus && radioStatus)
+            return true
+          else false
+        }
+
+        function formValidation(formElement, e){ 
+          if(formElement.getAttribute('type') === 'number')
+            preventNonNumericalInput(e);
+          let parent = formElement.closest('.popup'), 
+          submitBtn = parent.querySelector("button[type = 'submit']");
+          if(areInputsEmpty(parent))
+            submitBtn.disabled = false;
+          else
+            submitBtn.disabled = true;
+        }
+
+        // Event delegation when clicked on exchage options
+        window.addEventListener('load', ()=> {
+            window.addEventListener('keyup', (e) => {
+              if(e.target.closest('.input')){
+                let parent = e.target.closest('.input');
+                if(parent.firstElementChild.value !== '')
+                  parent.classList.add('animate-label')
+                else 
+                  parent.classList.remove('animate-label')
+                formValidation(parent.firstElementChild, e)
+                if(e.key === 'Enter')
+                  parent.closest('.popup').querySelector("button[type='submit']").click();
+              }
+            })
+
+            //Sign in behaviour
+            document.getElementById('sign_in_popup').addEventListener('keyup', (e) => {
+              if(e.target.closest('.input')){
+                let parent = e.target.closest('.input');
+                if(parent.firstElementChild.value !== '')
+                  parent.classList.add('animate-label')
+                else 
+                  parent.classList.remove('animate-label')
+                formValidation(parent.firstElementChild, e)
+                if(e.key === 'Enter')
+                  parent.closest('.popup').querySelector("button[type='submit']").click();
+              }
+            })
+
+            // Function for cancelling trade orders
+            /*document.getElementById('orders_container').addEventListener('click', (e) => {
+                let container = document.getElementById('orders_container');
+                if(e.target.closest('.cancel-order'))
+                    askConfirmation('Are you sure to cancel this trade order?').then((result) => {
+                        if(result){
+                          let tradeId = e.target.closest('.cancel-order').id;
+                            e.target.closest('.order').remove();
+                            showMessage('', `Order id: ${tradeId} cancelled.`)
+                            if(container.children.length === 0)
+                                container.innerHTML = '<h4>No trade orders yet.</h4>'
+                        }
+                    })
+            })*/
+
+            //renders trade orders
+            document.getElementById('deposit_request_container').innerHTML = '';
+            for(let i = 0; i < 6; i++){
+                frag.append(render.depositRequest('s6f5h4s65f4h6s5465s4', '7744023898@paytm', 'FPFeL5PXzW9bGosUjQYCxTHSMHidnygvvd', 'INR', '50000'))
+            }
+            if(frag.children.length === 0)
+                document.getElementById('deposit_request_container').innerHTML = '<h4>No trade orders yet.</h4>'
+            document.getElementById('deposit_request_container').append(frag);
+        })
+
+        let allPages = document.querySelectorAll('.page'),
+            allTabs = document.querySelectorAll('.navbar-item');
+        function showPage(btn, page){
+            let thisBtn;
+            typeof btn === 'string' ? thisbtn = document.getElementById(btn) : thisBtn = btn; 
+            allPages.forEach((page) => {
+                page.classList.add('hide-completely')
+            })
+            allTabs.forEach((tab) => {
+                tab.classList.remove('active')
+            })
+            document.getElementById(page).classList.remove('hide-completely')
+            thisBtn.classList.add('active')
+        }
+
+        // exchange execute option functions
+
+        function buyCrypto(btn){
+          let parentPopup = btn.closest('.popup'),
+              selectedCrypto = parentPopup.querySelector("input[name='crypto']:checked").value,
+              selectedCurrency = parentPopup.querySelector("input[name='currency']:checked").value,
+              buyWorth = parentPopup.querySelector('.input input').value;
+          console.log(selectedCrypto, selectedCurrency, buyWorth)
+          btnLoading(btn, 'start')  
+          
+          //if operation completes{
+            setTimeout(() => {
+              btnLoading(btn, 'stop')
+              hidePopup(parentPopup)
+              showMessage('', 'Bought Crypto')
+            }, 1000)
+          //}
+          /*else{
+              showMessage('error', 'Error message')
+          }*/
+        }
+        
+
+        function signIn(btn){
+          let parentPopup = btn.closest('.popup');
+          btnLoading(btn, 'start')  
+          
+          //if operation completes{
+            setTimeout(() => {
+              btnLoading(btn, 'stop')
+              hidePopup(parentPopup)
+              showMessage('', 'Signed In')
+              document.querySelector('main').classList.remove('hide-completely')
+            }, 1000)
+          //}
+        }
+
+        function signOut(){
+            askConfirmation('Do you want to sign out?').then((result) => {
+                if(result){
+                    showMessage('', 'Signed out')
+                    document.querySelector('main').classList.add('hide-completely')
+                    showPopup('sign_in_popup')
+                }
+            })
+        }
+    </script>
+</body>
+</html>
