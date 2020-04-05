@@ -50,18 +50,20 @@
                     <h1>Sign In</h1>
                 </div>
                 <p class="expand light-text">Welcome to RanchiMall Crypto exchange <b>Local Bitcoin++</b></p>
-                <label class="input">
-                    <input id="get_priv_key_field" type="password" required>
-                    <div class="label">Private Key</div>
-                  </label>
-                <div class="action expand" onclick="signIn(this)">
-                  <button class="primary-btn expand" type="submit" disabled>
-                      Sign In
-                  </button>
-                  <svg viewBox="0 0 73 73" class="loader">
-                      <path d="M72.5,36.5c0,19.88-16.12,36-36,36s-36-16.12-36-36s16.12-36,36-36S72.5,16.62,72.5,36.5"/>
-                  </svg>
-                </div>
+                <form class="expand">
+                    <label class="input">
+                        <input id="get_priv_key_field" type="password" required>
+                        <div class="label">Private Key</div>
+                      </label>
+                    <div class="action expand" onclick="signIn(this)">
+                      <button class="primary-btn expand" type="submit" disabled>
+                          Sign In
+                      </button>
+                      <svg viewBox="0 0 73 73" class="loader">
+                          <path d="M72.5,36.5c0,19.88-16.12,36-36,36s-36-16.12-36-36s16.12-36,36-36S72.5,16.62,72.5,36.5"/>
+                      </svg>
+                    </div>
+                </form>
                 <p class="light-text">
                     Don't have private key, get it from <a href="https://flo-webwallet.duckdns.org/" target="_blank">here</a>.
                 </p>
@@ -79,17 +81,19 @@
             <h5>RanchiMall</h5>
             <h3>Local Bitcoin++</h3>
         </span>
-        <span class="tag">Cashier</span>
+
     </header>
     <nav id="navbar">
         <div title="See all cash deposit requests" class="navbar-item active" onclick="showPage(this, 'deposit')">
             <h5>Deposit</h5>
+            <div class="notification-dot"></div>
         </div>
         <div title="See all cash withdraw requests" class="navbar-item" onclick="showPage(this, 'withdraw')">
             <div class="icon">
 
             </div>
             <h5>Withdraw</h5>
+            <div class="notification-dot"></div>
         </div>
         <div title="Manually Send tokens" class="navbar-item" onclick="showPage(this, 'send_token')">
             <svg viewBox="0 0 72 72" class="icon">
@@ -97,6 +101,14 @@
                 <polygon points="69.65 0.8 1.33 27.53 28.06 36.45 34.01 36.45 34.01 42.39 42.92 69.12 69.65 0.8"/>
             </svg>
             <h5>Send</h5>
+        </div>
+        <div title="profile page" class="dropdown navbar-item"  onclick="showPage(this, 'profile_page')">
+            <svg class="icon" id="profile_pic" viewBox="0 0 49.54 61.12">
+                <title>User icon</title>
+                <path d="M49.34,19.94c7.73,0,13.26,5.26,13.26,14S58.18,50.14,49.71,50.08,36.82,42.66,36.82,33.93s5.53-14,13.26-14" transform="translate(-25.23 -20)"/>
+                <path d="M43.83,52c-2.34,4.38-9.77,6.64-15.31,9.06-2.29,1-4.11,13-1.53,13a46.06,46.06,0,0,0,23.51,6,40.48,40.48,0,0,0,22.51-6c2.58,0,.76-12-1.53-13-5.54-2.42-13-4.68-15.31-9.06" transform="translate(-25.23 -19.44)"/>
+            </svg>
+            <h5>Cashier</h5>
         </div>
     </nav>
     <main>
@@ -140,22 +152,32 @@
             <div class="container-header">
                 <h2>Manual Token Transfer</h2>
             </div>
-            <label class="input">
-                <input id="token_reciever" type="text" required>
-                <div class="label">Reciever FLO ID</div>
-            </label>
-            <label class="input">
-                <input id="token_amount" inputmode="numeric" type="number" required>
-                <div class="label">Amount</div>
-            </label>
-            <div id="send-tokens_btn" class="action top-margin">
-                <button class="primary-btn" type="submit">
-                    Send
-                </button>
-                <svg viewBox="0 0 73 73" class="loader">
-                    <path d="M72.5,36.5c0,19.88-16.12,36-36,36s-36-16.12-36-36s16.12-36,36-36S72.5,16.62,72.5,36.5"/>
-                </svg>
+            <form>
+                <label class="input">
+                    <input id="token_reciever" type="text" required>
+                    <div class="label">Reciever FLO ID</div>
+                </label>
+                <label class="input">
+                    <input id="token_amount" inputmode="numeric" type="number" required>
+                    <div class="label">Amount</div>
+                </label>
+                <div id="send-tokens_btn" class="action top-margin">
+                    <button class="primary-btn" type="submit" disabled>
+                        Send
+                    </button>
+                    <svg viewBox="0 0 73 73" class="loader">
+                        <path d="M72.5,36.5c0,19.88-16.12,36-36,36s-36-16.12-36-36s16.12-36,36-36S72.5,16.62,72.5,36.5"/>
+                    </svg>
+                </div>
+            </form>
+        </section>
+        <section id="profile_page" class="page hide-completely">
+            <div class="container-header">
+                <h2>Profile</h2>
             </div>
+            <h5>FLO ID</h5>
+            <h4>FPFeL5PXzW9bGosUjQYCxTHSMHidnygvvd</h4>
+            <button class="primary-btn top-margin">Sign out</button>
         </section>
     </main>
     <script id="ui_functions">
@@ -164,17 +186,17 @@
             notificationSound = document.getElementById('notification_sound');
         const render = {
           // returns an order element;
-            depositRequest: function(txid, upiID, floId, currency, amount){
+            depositRequest: function(txid, upiId, floId, currency, amount){
                 let card = document.createElement('div'), currencySymbol;
                 card.classList.add('request')
                 currency === 'INR' ? currencySymbol = '₹' : currencySymbol = '$'; 
                 card.innerHTML = `  <h5>UPI ID</h5>
-                                    <h3 class="breakable">${upiID}</h3>
+                                    <h3 class="breakable">${upiId}</h3>
                                     <h5>FLO ID</h5>
                                     <h3 class="breakable">${floId}</h3>
                                     <h5>Amount</h5>
                                     <h3>${currencySymbol}${amount}</h3>
-                                    <div id="" class="action">
+                                    <div id="" class="action confirm-deposit-btn">
                                         <button type="submit" class="primary-btn">
                                             Confirm
                                         </button>
@@ -184,19 +206,28 @@
                                     </div>`;
                 return card;
             },
-            withdrawRequest: function(tradeId, type, product, price, currency){
+            withdrawRequest: function(txid, upiId, floId, currency, amount){
                 let card = document.createElement('div'), currencySymbol;
-                card.classList.add('order', 'grid', 'grid-2')
+                card.classList.add('request')
                 currency === 'INR' ? currencySymbol = '₹' : currencySymbol = '$'; 
-                card.innerHTML = `<div class="details">
-                            <h3>${type}</h3>
-                            ${product} worth ${currencySymbol}${price}
-                            <h5>Trade Id</h5>
-                            <span class="breakable">${tradeId}</span>
-                        </div>
-                        <button id="${tradeId}" class="cancel-order">Cancel</button>`;
+                card.innerHTML = `  <h5>UPI ID</h5>
+                                    <h3 class="breakable">${upiId}</h3>
+                                    <h5>FLO ID</h5>
+                                    <h3 class="breakable">${floId}</h3>
+                                    <h5>Amount</h5>
+                                    <h3>${currencySymbol}${amount}</h3>
+                                    <h5>Transaction ID</h5>
+                                    <h3 class="breakable">${txid}</h3>
+                                    <div id="" class="action confirm-withdraw-btn">
+                                        <button type="submit" class="primary-btn">
+                                            Confirm
+                                        </button>
+                                        <svg viewBox="0 0 73 73" class="loader">
+                                            <path d="M72.5,36.5c0,19.88-16.12,36-36,36s-36-16.12-36-36s16.12-36,36-36S72.5,16.62,72.5,36.5"/>
+                                        </svg>
+                                    </div>`;
                 return card;
-            }
+            },
         }
 
         //Checks for internet connection status
@@ -286,6 +317,7 @@
                     banner.classList.remove('no-transformations')
                 }, 4000)
             }
+
             // displays a popup for asking permission. Use this instead of JS confirm
             let askConfirmation = function(message){
                 return new Promise((resolve, reject) => {
@@ -358,7 +390,7 @@
         function formValidation(formElement, e){ 
           if(formElement.getAttribute('type') === 'number')
             preventNonNumericalInput(e);
-          let parent = formElement.closest('.popup'), 
+          let parent = formElement.closest('form'), 
           submitBtn = parent.querySelector("button[type = 'submit']");
           if(areInputsEmpty(parent))
             submitBtn.disabled = false;
@@ -366,19 +398,30 @@
             submitBtn.disabled = true;
         }
 
-        // Event delegation when clicked on exchage options
+        let allForms = document.querySelectorAll('form');
         window.addEventListener('load', ()=> {
-            window.addEventListener('keyup', (e) => {
-              if(e.target.closest('.input')){
-                let parent = e.target.closest('.input');
-                if(parent.firstElementChild.value !== '')
-                  parent.classList.add('animate-label')
-                else 
-                  parent.classList.remove('animate-label')
-                formValidation(parent.firstElementChild, e)
-                if(e.key === 'Enter')
-                  parent.closest('.popup').querySelector("button[type='submit']").click();
-              }
+            allForms.forEach((form) => {
+                form.addEventListener('keyup', (e) => {
+                    if(e.target.closest('.input')){
+                        let parent = e.target.closest('.input');
+                        if(parent.firstElementChild.value !== '')
+                            parent.classList.add('animate-label')
+                        else 
+                            parent.classList.remove('animate-label')
+                        formValidation(parent.firstElementChild, e)
+                        if(e.key === 'Enter')
+                            parent.closest('.popup').querySelector("button[type='submit']").click();
+                    }
+                })
+            })
+            allForms.forEach((form) => {
+                form.addEventListener('blur', (e) => {
+                    if(e.target.closest('.input')){
+                        let parent = e.target.closest('.input');
+                    if(parent.firstElementChild.value === '')
+                        parent.classList.remove('animate-label')
+                    }
+                }, true)
             })
 
             //Sign in behaviour
@@ -395,22 +438,43 @@
               }
             })
 
-            // Function for cancelling trade orders
-            /*document.getElementById('orders_container').addEventListener('click', (e) => {
-                let container = document.getElementById('orders_container');
-                if(e.target.closest('.cancel-order'))
-                    askConfirmation('Are you sure to cancel this trade order?').then((result) => {
+            // Function for confirming deposit requests 
+            document.getElementById('deposit_request_container').addEventListener('click', (e) => {
+                let container = document.getElementById('deposit_request_container');
+                if(e.target.closest('.confirm-deposit-btn'))
+                    askConfirmation('Confirm this deposit request?').then((result) => {
                         if(result){
-                          let tradeId = e.target.closest('.cancel-order').id;
-                            e.target.closest('.order').remove();
-                            showMessage('', `Order id: ${tradeId} cancelled.`)
+                          let depositRequestId = e.target.closest('.confirm-deposit-btn').id;
+                          btnLoading(e.target.closest('.confirm-deposit-btn'), 'start')
+                          setTimeout(() => {
+                            e.target.closest('.request').remove();
+                            showMessage('', `Request id: ${depositRequestId} confirmed.`)
                             if(container.children.length === 0)
-                                container.innerHTML = '<h4>No trade orders yet.</h4>'
+                                container.innerHTML = '<h4>No deposit requests, all clear.</h4>'
+                          },1000)
                         }
                     })
-            })*/
+            })
 
-            //renders trade orders
+            // Function for confirming withdraw requests 
+            document.getElementById('withdraw_request_container').addEventListener('click', (e) => {
+                let container = document.getElementById('withdraw_request_container');
+                if(e.target.closest('.confirm-withdraw-btn'))
+                    askConfirmation('Confirm this withdraw request?').then((result) => {
+                        if(result){
+                          let withdrawRequestId = e.target.closest('.confirm-withdraw-btn').id;
+                          btnLoading(e.target.closest('.confirm-withdraw-btn'), 'start')
+                          setTimeout(() => {
+                            e.target.closest('.request').remove();
+                            showMessage('', `Request id: ${withdrawRequestId} confirmed.`)
+                            if(container.children.length === 0)
+                                container.innerHTML = '<h4>No withdraw requests, all clear.</h4>'
+                          },1000)
+                        }
+                    })
+            })
+
+            //renders deposit requests
             document.getElementById('deposit_request_container').innerHTML = '';
             for(let i = 0; i < 6; i++){
                 frag.append(render.depositRequest('s6f5h4s65f4h6s5465s4', '7744023898@paytm', 'FPFeL5PXzW9bGosUjQYCxTHSMHidnygvvd', 'INR', '50000'))
@@ -418,6 +482,15 @@
             if(frag.children.length === 0)
                 document.getElementById('deposit_request_container').innerHTML = '<h4>No trade orders yet.</h4>'
             document.getElementById('deposit_request_container').append(frag);
+            
+            //renders deposit requests
+            document.getElementById('withdraw_request_container').innerHTML = '';
+            for(let i = 0; i < 6; i++){
+                frag.append(render.withdrawRequest('s6f5h4s65f4h6s5465s4kdvbskjbvjasbdvbadbvjabdjvajdbksvjbskjb', '7744023898@paytm', 'FPFeL5PXzW9bGosUjQYCxTHSMHidnygvvd', 'INR', '50000'))
+            }
+            if(frag.children.length === 0)
+                document.getElementById('withdraw_request_container').innerHTML = '<h4>No trade orders yet.</h4>'
+            document.getElementById('withdraw_request_container').append(frag);
         })
 
         let allPages = document.querySelectorAll('.page'),
