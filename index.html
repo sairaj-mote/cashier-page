@@ -112,10 +112,10 @@
         </div>
     </nav>
     <main>
-        <section id="deposit" class="page">
+        <section id="deposit" class="page hide-completely">
             <div class="container-header">
                 <h2>Deposit Requests</h2>
-                <div id="load_pending_deposits" class="action">
+                <div id="fetch_deposits" class="action">
                     <button type="submit">
                         Load pending
                     </button>
@@ -130,10 +130,10 @@
             <div id="deposit_request_container">
             </div>
         </section>
-        <section id="withdraw" class="page hide-completely">
+        <section id="withdraw" class="page">
             <div class="container-header">
                 <h2>Withdraw Requests</h2>
-                <div id="load_pending_withdraws" class="action">
+                <div id="fetch_withdraws" class="action">
                     <button type="submit">
                         Load pending
                     </button>
@@ -450,7 +450,7 @@
                             e.target.closest('.request').remove();
                             showMessage('', `Request id: ${depositRequestId} confirmed.`)
                             if(container.children.length === 0)
-                                container.innerHTML = '<h4>No deposit requests, all clear.</h4>'
+                                container.innerHTML = '<h2 class="light-text">No deposit requests.</h2>'
                           },1000)
                         }
                     })
@@ -468,7 +468,17 @@
                             e.target.closest('.request').remove();
                             showMessage('', `Request id: ${withdrawRequestId} confirmed.`)
                             if(container.children.length === 0)
-                                container.innerHTML = '<h4>No withdraw requests, all clear.</h4>'
+                                container.innerHTML = `
+                                <div class="empty">
+                                    <svg viewBox="0 0 513 413.45">
+                                    <defs><style>.a,.b,.c{fill:none;stroke:#000;stroke-linejoin:round;}.a{stroke-width:9px;}.b,.c{stroke-width:5px;}.c{stroke-dasharray:11.94 11.94;}</style></defs>
+                                    <title>Empty icon</title>
+                                    <polyline class="a" points="508.5 255.95 220.5 183.95 4.5 255.95 293.5 327.95 370.38 302.42 220.5 264.95 143.05 290.77 220.5 264.95 220.5 183.95 4.5 255.95 4.5 336.95 292.5 408.95 508.5 336.95 508.5 255.95 293.5 327.95 292.5 408.95"/>
+                                    <path class="b" d="M947.54,629.34q0-3,.05-6" transform="translate(-703.5 -333.27)"/><path class="c" d="M948.09,611.41c5.42-83.07,49.82-144.78,102.21-154.63,57.46-10.81,101.53-.27,88.07,42.61-7.82,24.88-50.89,36.71-71.95,5.86-26.87-39.37,12.95-108.88,71.46-131,17.38-6.57,37.33-14.37,53.89-30.53" transform="translate(-703.5 -333.27)"/>
+                                    <path class="b" d="M1195.9,339.41c1.32-1.47,2.62-3,3.88-4.58" transform="translate(-703.5 -333.27)"/>
+                                    </svg>
+                                    <h2 class="light-text">No withdraw requests.</h2>
+                                </div>`
                           },1000)
                         }
                     })
@@ -485,11 +495,20 @@
             
             //renders deposit requests
             document.getElementById('withdraw_request_container').innerHTML = '';
-            for(let i = 0; i < 6; i++){
+            for(let i = 0; i < 0; i++){
                 frag.append(render.withdrawRequest('s6f5h4s65f4h6s5465s4kdvbskjbvjasbdvbadbvjabdjvajdbksvjbskjb', '7744023898@paytm', 'FPFeL5PXzW9bGosUjQYCxTHSMHidnygvvd', 'INR', '50000'))
             }
             if(frag.children.length === 0)
-                document.getElementById('withdraw_request_container').innerHTML = '<h4>No trade orders yet.</h4>'
+                document.getElementById('withdraw_request_container').innerHTML = `<div class="empty">
+                                                                                    <svg viewBox="0 0 513 413.45">
+                                                                                    <defs><style>.a,.b,.c{fill:none;stroke-linejoin:round;}.a{stroke-width:9px;}.b,.c{stroke-width:5px;}.c{stroke-dasharray:11.94 11.94;}</style></defs>
+                                                                                    <title>Empty icon</title>
+                                                                                    <polyline class="a" points="508.5 255.95 220.5 183.95 4.5 255.95 293.5 327.95 370.38 302.42 220.5 264.95 143.05 290.77 220.5 264.95 220.5 183.95 4.5 255.95 4.5 336.95 292.5 408.95 508.5 336.95 508.5 255.95 293.5 327.95 292.5 408.95"/>
+                                                                                    <path class="b" d="M947.54,629.34q0-3,.05-6" transform="translate(-703.5 -333.27)"/><path class="c" d="M948.09,611.41c5.42-83.07,49.82-144.78,102.21-154.63,57.46-10.81,101.53-.27,88.07,42.61-7.82,24.88-50.89,36.71-71.95,5.86-26.87-39.37,12.95-108.88,71.46-131,17.38-6.57,37.33-14.37,53.89-30.53" transform="translate(-703.5 -333.27)"/>
+                                                                                    <path class="b" d="M1195.9,339.41c1.32-1.47,2.62-3,3.88-4.58" transform="translate(-703.5 -333.27)"/>
+                                                                                    </svg>
+                                                                                    <h2 class="light-text">No withdraw requests.</h2>
+                                                                                </div>`;
             document.getElementById('withdraw_request_container').append(frag);
         })
 
