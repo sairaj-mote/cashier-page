@@ -64,28 +64,6 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
-button::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(var(--text-light), 0.16);
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  -webkit-clip-path: circle(0%);
-          clip-path: circle(0%);
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-button:hover::after {
-  -webkit-clip-path: circle(100%);
-          clip-path: circle(100%);
-}
-
 button:focus {
   outline: thin solid rgba(var(--text-light), 0.4);
 }
@@ -97,11 +75,6 @@ button:disabled {
 
 button:disabled ~ .loader {
   opacity: 0;
-}
-
-button:disabled::after {
-  -webkit-clip-path: none;
-          clip-path: none;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -202,32 +175,6 @@ input:invalid {
           transform: none !important;
 }
 
-.hoverable {
-  position: relative;
-}
-
-.hoverable::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(var(--text-light), 0.1);
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  -webkit-clip-path: circle(0%);
-          clip-path: circle(0%);
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-}
-
-.hoverable:hover::after {
-  -webkit-clip-path: circle(100%);
-          clip-path: circle(100%);
-}
-
 .loader {
   fill: none;
   stroke-width: 6;
@@ -287,11 +234,6 @@ input:invalid {
           justify-content: center;
 }
 
-.action:hover button::after {
-  -webkit-clip-path: circle(100%);
-          clip-path: circle(100%);
-}
-
 .action .btn {
   z-index: 2;
 }
@@ -316,21 +258,65 @@ input:invalid {
   width: 100%;
 }
 
-@-webkit-keyframes fade {
+.fade-left {
+  -webkit-animation: fadeleft 0.3s;
+          animation: fadeleft 0.3s;
+}
+
+.fade-right {
+  -webkit-animation: faderight 0.3s;
+          animation: faderight 0.3s;
+}
+
+@-webkit-keyframes faderight {
   from {
     opacity: 0;
+    -webkit-transform: translateX(-1em);
+            transform: translateX(-1em);
   }
   to {
     opacity: 1;
+    -webkit-transform: none;
+            transform: none;
   }
 }
 
-@keyframes fade {
+@keyframes faderight {
   from {
     opacity: 0;
+    -webkit-transform: translateX(-1em);
+            transform: translateX(-1em);
   }
   to {
     opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+
+@-webkit-keyframes fadeleft {
+  from {
+    opacity: 0;
+    -webkit-transform: translateX(1em);
+            transform: translateX(1em);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+
+@keyframes fadeleft {
+  from {
+    opacity: 0;
+    -webkit-transform: translateX(1em);
+            transform: translateX(1em);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
   }
 }
 
@@ -346,11 +332,7 @@ input:invalid {
   padding: 0.8em;
   margin-bottom: 1.5em;
   border-radius: 0.2em;
-  -webkit-transition: opacity 0.3s;
-  transition: opacity 0.3s;
   background: var(--dark-shade);
-  -webkit-animation: fade 0.3s;
-          animation: fade 0.3s;
   border: 0.1em solid transparent;
 }
 
@@ -386,7 +368,6 @@ input:invalid {
   background: transparent;
   outline: none;
   color: rgba(var(--text), 1);
-  caret-color: var(--primary-color);
 }
 
 .animate-label input {
@@ -653,7 +634,7 @@ input:invalid {
 }
 
 #sign_in_popup .input {
-  background: var(--background);
+  background: rgba(var(--text), 0.1);
 }
 
 #sign_in_popup #sign_in_illustration {
@@ -673,10 +654,6 @@ input:invalid {
   color: black;
 }
 
-.primary-btn::after {
-  background: rgba(var(--foreground), 0.1);
-}
-
 #main_header {
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -686,6 +663,16 @@ input:invalid {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+#main_header svg {
+  stroke: var(--primary-color);
+  stroke-width: 10;
+  stroke-linecap: round;
+  height: 2em;
+  width: 3em;
+  fill: none;
+  margin-right: 0.4em;
 }
 
 #navbar {
@@ -731,6 +718,12 @@ input:invalid {
   stroke: #ffffff80;
   stroke-width: 6;
   overflow: visible;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#navbar .navbar-item .banking {
+  stroke-width: 4;
 }
 
 #navbar .active {
@@ -760,24 +753,6 @@ input:invalid {
 .shrink.notification-dot::after {
   -webkit-transform: scale(0);
           transform: scale(0);
-}
-
-.page {
-  padding: 2em 0;
-  padding-bottom: 4rem;
-}
-
-.page .container-header {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  padding-bottom: 1em;
-  margin-bottom: 1em;
-  z-index: 2;
-}
-
-.page .container-header h2 {
-  font-weight: 600;
 }
 
 #deposit .container-header, #withdraw .container-header {
@@ -824,6 +799,11 @@ input:invalid {
       grid-template-columns: 1fr;
 }
 
+.page {
+  padding: 2em 0;
+  padding-bottom: 4rem;
+}
+
 .page .container-header {
   display: -ms-grid;
   display: grid;
@@ -831,6 +811,16 @@ input:invalid {
       grid-template-columns: 1fr auto;
       grid-template-areas: '. .' 'search search';
   gap: 1em;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  z-index: 2;
+}
+
+.page .container-header h2 {
+  font-weight: 600;
 }
 
 .page .container-header .action {
@@ -866,17 +856,9 @@ input:invalid {
 }
 
 .empty {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  text-align: center;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
   width: 100%;
 }
 
@@ -963,11 +945,6 @@ input:invalid {
   .page {
     padding-bottom: 2em;
   }
-  .dropdown .dropdown-body {
-    width: -webkit-max-content;
-    width: -moz-max-content;
-    width: max-content;
-  }
   #sign_in_popup {
     width: 24rem;
   }
@@ -976,6 +953,9 @@ input:invalid {
         -ms-flex-pack: left;
             justify-content: left;
     text-align: left;
+  }
+  #send_token .input, #send_token .action {
+    width: 24rem;
   }
 }
 

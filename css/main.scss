@@ -48,23 +48,6 @@ button{
     clip-path: circle(100%);
     background: rgba(var(--text-light), 0.1);
     -webkit-tap-highlight-color: transparent;
-    &::after{
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: rgba(var(--text-light), .16);
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        clip-path: circle(0%);
-        transition: 0.3s;
-        cursor: pointer;
-    }
-    &:hover::after{
-        clip-path: circle(100%);
-    }
     &:focus{
         outline: thin solid rgba(var(--text-light), .4);
     }
@@ -74,9 +57,6 @@ button{
     }
     &:disabled ~ .loader{
         opacity: 0;
-    }
-    &:disabled::after{
-        clip-path: none;
     }
 }
 input[type=number]::-webkit-inner-spin-button, 
@@ -141,26 +121,6 @@ input:invalid{
 .no-transformations{
     transform: none !important;
 }
-.hoverable{
-    position: relative;
-    &::after{
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: rgba(var(--text-light), 0.1);
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        z-index: 1;
-        clip-path: circle(0%);
-        transition: 0.3s;
-    }
-    &:hover::after{
-        clip-path: circle(100%);
-    }
-}
 .loader{
     fill: none;
     stroke-width: 6;
@@ -191,9 +151,6 @@ input:invalid{
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    &:hover  button::after{
-        clip-path: circle(100%);
-    }
     .btn{
         z-index: 2;
     }
@@ -212,14 +169,33 @@ input:invalid{
 .expand{
     width: 100%;
 }
-@keyframes fade{
+.fade-left{
+    animation: fadeleft 0.3s;
+}
+.fade-right{
+    animation: faderight 0.3s;
+}
+@keyframes faderight{
     from{
         opacity: 0;
+        transform: translateX(-1em);
     }
     to{
         opacity: 1;
+        transform: none;
     }
 }
+@keyframes fadeleft{
+    from{
+        opacity: 0;
+        transform: translateX(1em);
+    }
+    to{
+        opacity: 1;
+        transform: none;
+    }
+}
+
 .input{
     display: flex;
     width: 100%;
@@ -228,9 +204,7 @@ input:invalid{
     padding: 0.8em;
     margin-bottom: 1.5em;
     border-radius: 0.2em;
-    transition: opacity 0.3s;
     background: var(--dark-shade);
-    animation: fade 0.3s;
     border: 0.1em solid transparent;
     &:last-of-type{
         margin-bottom: 0;
@@ -255,7 +229,6 @@ input:invalid{
         background: transparent;
         outline: none;
         color: rgba(var(--text), 1);
-        caret-color: var(--primary-color);
     }
 }
 .animate-label{
@@ -436,7 +409,7 @@ input:invalid{
         margin-bottom: 1em;
     }
     .input{
-        background: var(--background);
+        background: rgba(var(--text), 0.1);
     }
     #sign_in_illustration{
         position: absolute;
@@ -451,15 +424,21 @@ input:invalid{
     padding: 0.8em 1.6em;
     justify-content: center;
     color: black;
-    &::after{
-        background: rgba(var(--foreground), 0.1);
-    }
 }
 #main_header{
     align-items: center;
     padding: 1em 0;
     text-align: center;
     justify-content: center;
+    svg{
+        stroke: var(--primary-color);
+        stroke-width: 10;
+        stroke-linecap: round;
+        height: 2em;
+        width: 3em;
+        fill: none;
+        margin-right: 0.4em;
+    }
 }
 #navbar{
     display: flex;
@@ -491,6 +470,11 @@ input:invalid{
             stroke: #ffffff80;
             stroke-width: 6;
             overflow: visible;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .banking{
+            stroke-width: 4;
         }
     }
     .active{
@@ -514,20 +498,6 @@ input:invalid{
 }
 .shrink.notification-dot::after{
         transform: scale(0);
-}
-.page{
-    padding: 2em 0;
-    padding-bottom: 4rem;
-    .container-header{
-        position: sticky;
-        top: 0;
-        padding-bottom: 1em;
-        margin-bottom: 1em;
-        z-index: 2;
-        h2{
-            font-weight: 600;
-        }
-    }
 }
 #deposit, #withdraw{
     .container-header{
@@ -560,12 +530,22 @@ input:invalid{
     grid-template-columns: 1fr;
 }
 .page{
+    padding: 2em 0;
+    padding-bottom: 4rem;
     .container-header{
         display: grid;
         grid-template-columns: 1fr auto;
         grid-template-areas: '. .'
                             'search search';
         gap: 1em;
+        position: sticky;
+        top: 0;
+        padding-bottom: 1em;
+        margin-bottom: 1em;
+        z-index: 2;
+        h2{
+            font-weight: 600;
+        }
         .action{
             height: 100%;
             button{
@@ -593,10 +573,8 @@ input:invalid{
     }
 }
 .empty{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    display: grid;
+    place-items: center;
     width: 100%;
     svg{
         stroke: rgba(var(--text), 0.8);
@@ -672,17 +650,17 @@ input:invalid{
     .page{
         padding-bottom: 2em;
     }
-    .dropdown{
-        .dropdown-body{
-            width: max-content;
-        }
-    }
     #sign_in_popup{
         width: 24rem;
     }
     #main_header{
         justify-content: left;
         text-align: left;
+    }
+    #send_token{
+        .input, .action{
+            width: 24rem;
+        }
     }
 }
 @media only screen and (min-width: 800px){
