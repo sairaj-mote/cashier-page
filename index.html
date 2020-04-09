@@ -44,19 +44,19 @@
             </svg>
             </button>
         </div>
-        <div class="popup-container solid-background hide">
+        <div class="popup-container solid-background">
             <div id="sign_in_popup" class="popup">
                 <div class="container-header">
                     <h1>Sign In</h1>
                 </div>
                 <p class="expand light-text">Welcome to RanchiMall Crypto exchange <b>Local Bitcoin++</b></p>
-                <form class="expand">
-                    <label class="input">
+                <form class="expand" autocomplete="off" onsubmit="return false">
+                    <div class="input">
                         <input id="get_priv_key_field" type="password" required>
-                        <div class="label">Private Key</div>
-                      </label>
+                        <label>Private Key</label>
+                      </div>
                     <div class="action expand" onclick="signIn(this)">
-                      <button class="primary-btn expand" type="submit" disabled>
+                      <button class="primary-btn expand" type="button" disabled>
                           Sign In
                       </button>
                       <svg viewBox="0 0 73 73" class="loader">
@@ -84,16 +84,14 @@
 
     </header>
     <nav id="navbar">
-        <div title="See all cash deposit requests" class="navbar-item active" onclick="showPage(this, 'deposit')">
+        <div title="See all cash deposit requests" id="deposit_page_btn" class="navbar-item active notification-dot" onclick="showPage(this, 'deposit')">
             <h5>Deposit</h5>
-            <div class="notification-dot"></div>
         </div>
-        <div title="See all cash withdraw requests" class="navbar-item" onclick="showPage(this, 'withdraw')">
+        <div title="See all cash withdraw requests" class="navbar-item notification-dot" onclick="showPage(this, 'withdraw')">
             <div class="icon">
 
             </div>
             <h5>Withdraw</h5>
-            <div class="notification-dot"></div>
         </div>
         <div title="Manually Send tokens" class="navbar-item" onclick="showPage(this, 'send_token')">
             <svg viewBox="0 0 72 72" class="icon">
@@ -116,14 +114,14 @@
             <div class="container-header">
                 <h2>Deposit Requests</h2>
                 <div id="fetch_deposits" class="action">
-                    <button type="submit">
+                    <button>
                         Load pending
                     </button>
                     <svg viewBox="0 0 73 73" class="loader">
                         <path d="M72.5,36.5c0,19.88-16.12,36-36,36s-36-16.12-36-36s16.12-36,36-36S72.5,16.62,72.5,36.5"/>
                     </svg>
                 </div>
-                <label class="search">
+                <label class="search" id="search_deposit">
                     <input type="search" placeholder="Search">
                 </label>
             </div>
@@ -134,14 +132,14 @@
             <div class="container-header">
                 <h2>Withdraw Requests</h2>
                 <div id="fetch_withdraws" class="action">
-                    <button type="submit">
+                    <button>
                         Load pending
                     </button>
                     <svg viewBox="0 0 73 73" class="loader">
                         <path d="M72.5,36.5c0,19.88-16.12,36-36,36s-36-16.12-36-36s16.12-36,36-36S72.5,16.62,72.5,36.5"/>
                     </svg>
                 </div>
-                <label class="search">
+                <label class="search" id="search_withdraw">
                     <input type="search" placeholder="Search">
                 </label>
             </div>
@@ -152,17 +150,17 @@
             <div class="container-header">
                 <h2>Manual Token Transfer</h2>
             </div>
-            <form>
-                <label class="input">
+            <form autocomplete="off" onsubmit="return false">
+                <div class="input">
                     <input id="token_reciever" type="text" required>
-                    <div class="label">Reciever FLO ID</div>
-                </label>
-                <label class="input">
+                    <label for="token_reciever">Reciever FLO ID</label>
+                </div>
+                <div class="input">
                     <input id="token_amount" inputmode="numeric" type="number" required>
-                    <div class="label">Amount</div>
-                </label>
+                    <label for="token_amount">Amount</label>
+                </div>
                 <div id="send-tokens_btn" class="action top-margin">
-                    <button class="primary-btn" type="submit" disabled>
+                    <button class="primary-btn" type="button" disabled>
                         Send
                     </button>
                     <svg viewBox="0 0 73 73" class="loader">
@@ -177,7 +175,7 @@
             </div>
             <h5>FLO ID</h5>
             <h4>FPFeL5PXzW9bGosUjQYCxTHSMHidnygvvd</h4>
-            <button class="primary-btn top-margin">Sign out</button>
+            <button class="primary-btn top-margin" onclick="signOut()">Sign out</button>
         </section>
     </main>
     <script id="ui_functions">
@@ -197,7 +195,7 @@
                                     <h5>Amount</h5>
                                     <h3>${currencySymbol}${amount}</h3>
                                     <div id="" class="action confirm-deposit-btn">
-                                        <button type="submit" class="primary-btn">
+                                        <button class="primary-btn">
                                             Confirm
                                         </button>
                                         <svg viewBox="0 0 73 73" class="loader">
@@ -219,7 +217,7 @@
                                     <h5>Transaction ID</h5>
                                     <h3 class="breakable">${txid}</h3>
                                     <div id="" class="action confirm-withdraw-btn">
-                                        <button type="submit" class="primary-btn">
+                                        <button class="primary-btn">
                                             Confirm
                                         </button>
                                         <svg viewBox="0 0 73 73" class="loader">
@@ -262,7 +260,7 @@
                     if(popup.querySelector('.btn')){
                         popup.querySelector('.btn').classList.remove('clip')
                         popup.querySelector('.loader').classList.remove('animate-loader')
-                        popup.querySelector("button[type='submit']").disabled = true;
+                        popup.querySelector(".action button").disabled = true;
                     }
                 }, 400)
             }
@@ -391,7 +389,7 @@
           if(formElement.getAttribute('type') === 'number')
             preventNonNumericalInput(e);
           let parent = formElement.closest('form'), 
-          submitBtn = parent.querySelector("button[type = 'submit']");
+              submitBtn = parent.querySelector(".action button");
           if(areInputsEmpty(parent))
             submitBtn.disabled = false;
           else
@@ -409,8 +407,9 @@
                         else 
                             parent.classList.remove('animate-label')
                         formValidation(parent.firstElementChild, e)
-                        if(e.key === 'Enter')
-                            parent.closest('.popup').querySelector("button[type='submit']").click();
+                        if(e.key === 'Enter'){
+                            parent.closest('form').querySelector(".action").click();
+                        }
                     }
                 })
             })
@@ -422,20 +421,6 @@
                         parent.classList.remove('animate-label')
                     }
                 }, true)
-            })
-
-            //Sign in behaviour
-            document.getElementById('sign_in_popup').addEventListener('keyup', (e) => {
-              if(e.target.closest('.input')){
-                let parent = e.target.closest('.input');
-                if(parent.firstElementChild.value !== '')
-                  parent.classList.add('animate-label')
-                else 
-                  parent.classList.remove('animate-label')
-                formValidation(parent.firstElementChild, e)
-                if(e.key === 'Enter')
-                  parent.closest('.popup').querySelector("button[type='submit']").click();
-              }
             })
 
             // Function for confirming deposit requests 
@@ -467,18 +452,20 @@
                           setTimeout(() => {
                             e.target.closest('.request').remove();
                             showMessage('', `Request id: ${withdrawRequestId} confirmed.`)
-                            if(container.children.length === 0)
+                            if(container.children.length === 0){
                                 container.innerHTML = `
-                                <div class="empty">
-                                    <svg viewBox="0 0 513 413.45">
-                                    <defs><style>.a,.b,.c{fill:none;stroke:#000;stroke-linejoin:round;}.a{stroke-width:9px;}.b,.c{stroke-width:5px;}.c{stroke-dasharray:11.94 11.94;}</style></defs>
-                                    <title>Empty icon</title>
-                                    <polyline class="a" points="508.5 255.95 220.5 183.95 4.5 255.95 293.5 327.95 370.38 302.42 220.5 264.95 143.05 290.77 220.5 264.95 220.5 183.95 4.5 255.95 4.5 336.95 292.5 408.95 508.5 336.95 508.5 255.95 293.5 327.95 292.5 408.95"/>
-                                    <path class="b" d="M947.54,629.34q0-3,.05-6" transform="translate(-703.5 -333.27)"/><path class="c" d="M948.09,611.41c5.42-83.07,49.82-144.78,102.21-154.63,57.46-10.81,101.53-.27,88.07,42.61-7.82,24.88-50.89,36.71-71.95,5.86-26.87-39.37,12.95-108.88,71.46-131,17.38-6.57,37.33-14.37,53.89-30.53" transform="translate(-703.5 -333.27)"/>
-                                    <path class="b" d="M1195.9,339.41c1.32-1.47,2.62-3,3.88-4.58" transform="translate(-703.5 -333.27)"/>
-                                    </svg>
-                                    <h2 class="light-text">No withdraw requests.</h2>
-                                </div>`
+                                    <div class="empty">
+                                        <svg viewBox="0 0 513 413.45">
+                                        <defs><style>.a,.b,.c{fill:none;stroke:#000;stroke-linejoin:round;}.a{stroke-width:9px;}.b,.c{stroke-width:5px;}.c{stroke-dasharray:11.94 11.94;}</style></defs>
+                                        <title>Empty icon</title>
+                                        <polyline class="a" points="508.5 255.95 220.5 183.95 4.5 255.95 293.5 327.95 370.38 302.42 220.5 264.95 143.05 290.77 220.5 264.95 220.5 183.95 4.5 255.95 4.5 336.95 292.5 408.95 508.5 336.95 508.5 255.95 293.5 327.95 292.5 408.95"/>
+                                        <path class="b" d="M947.54,629.34q0-3,.05-6" transform="translate(-703.5 -333.27)"/><path class="c" d="M948.09,611.41c5.42-83.07,49.82-144.78,102.21-154.63,57.46-10.81,101.53-.27,88.07,42.61-7.82,24.88-50.89,36.71-71.95,5.86-26.87-39.37,12.95-108.88,71.46-131,17.38-6.57,37.33-14.37,53.89-30.53" transform="translate(-703.5 -333.27)"/>
+                                        <path class="b" d="M1195.9,339.41c1.32-1.47,2.62-3,3.88-4.58" transform="translate(-703.5 -333.27)"/>
+                                        </svg>
+                                        <h2 class="light-text">No withdraw requests.</h2>
+                                    </div>`;
+                                document.getElementById('search_withdraw').classList.add('hide-completely')
+                            } 
                           },1000)
                         }
                     })
@@ -498,7 +485,7 @@
             for(let i = 0; i < 0; i++){
                 frag.append(render.withdrawRequest('s6f5h4s65f4h6s5465s4kdvbskjbvjasbdvbadbvjabdjvajdbksvjbskjb', '7744023898@paytm', 'FPFeL5PXzW9bGosUjQYCxTHSMHidnygvvd', 'INR', '50000'))
             }
-            if(frag.children.length === 0)
+            if(frag.children.length === 0){
                 document.getElementById('withdraw_request_container').innerHTML = `<div class="empty">
                                                                                     <svg viewBox="0 0 513 413.45">
                                                                                     <defs><style>.a,.b,.c{fill:none;stroke-linejoin:round;}.a{stroke-width:9px;}.b,.c{stroke-width:5px;}.c{stroke-dasharray:11.94 11.94;}</style></defs>
@@ -509,6 +496,11 @@
                                                                                     </svg>
                                                                                     <h2 class="light-text">No withdraw requests.</h2>
                                                                                 </div>`;
+                document.getElementById('search_withdraw').classList.add('hide-completely')
+            }
+            else
+            document.getElementById('search_withdraw').classList.remove('hide-completely')
+
             document.getElementById('withdraw_request_container').append(frag);
         })
 
@@ -524,7 +516,11 @@
                 tab.classList.remove('active')
             })
             document.getElementById(page).classList.remove('hide-completely')
-            thisBtn.classList.add('active')
+            thisBtn.classList.add('active', 'shrink')
+            if(page === 'send_token')
+            {
+                document.getElementById('deposit_page_btn').classList.remove('shrink')
+            }
         }
 
         // exchange execute option functions
@@ -551,7 +547,7 @@
         
 
         function signIn(btn){
-          let parentPopup = btn.closest('.popup');
+          let parentPopup = btn.closest('form');
           btnLoading(btn, 'start')  
           
           //if operation completes{
