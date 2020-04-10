@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <audio id="notification_sound">
@@ -236,6 +237,12 @@
             <button class="primary-btn top-margin" onclick="signOut()">Sign out</button>
         </section>
     </main>
+    <script>
+        if ('serviceWorker' in navigator) { 
+            // register service worker 
+            navigator.serviceWorker.register('/service-worker.js')
+        }
+    </script>
     <script id="ui_functions">
         let frag = document.createDocumentFragment(),
             currentTimeout,
@@ -246,10 +253,10 @@
                 let card = document.createElement('div'), currencySymbol;
                 card.classList.add('request')
                 currency === 'INR' ? currencySymbol = '₹' : currencySymbol = '$'; 
-                card.innerHTML = `  <h5>UPI ID</h5>
+                card.innerHTML = `  <h5>FLO ID</h5>
+                                    <h4 class="breakable">${floId}</h4>
+                                    <h5>UPI ID</h5>
                                     <h3 class="breakable">${upiId}</h3>
-                                    <h5>FLO ID</h5>
-                                    <h3 class="breakable">${floId}</h3>
                                     <h5>Amount</h5>
                                     <h3>${currencySymbol}${amount}</h3>
                                     <div id="" class="action confirm-deposit-btn">
@@ -266,14 +273,14 @@
                 let card = document.createElement('div'), currencySymbol;
                 card.classList.add('request')
                 currency === 'INR' ? currencySymbol = '₹' : currencySymbol = '$'; 
-                card.innerHTML = `  <h5>UPI ID</h5>
+                card.innerHTML = `  <h5>FLO ID</h5>
+                                    <h4 class="breakable">${floId}</h4>
+                                    <h5>UPI ID</h5>
                                     <h3 class="breakable">${upiId}</h3>
-                                    <h5>FLO ID</h5>
-                                    <h3 class="breakable">${floId}</h3>
                                     <h5>Amount</h5>
                                     <h3>${currencySymbol}${amount}</h3>
                                     <h5>Transaction ID</h5>
-                                    <h3 class="breakable">${txid}</h3>
+                                    <h4 class="breakable">${txid}</h4>
                                     <div id="" class="action confirm-withdraw-btn">
                                         <button class="primary-btn">
                                             Confirm
@@ -537,7 +544,7 @@
             
             //renders deposit requests
             document.getElementById('withdraw_request_container').innerHTML = '';
-            for(let i = 0; i < 0; i++){
+            for(let i = 0; i < 4; i++){
                 frag.append(render.withdrawRequest('s6f5h4s65f4h6s5465s4kdvbskjbvjasbdvbadbvjabdjvajdbksvjbskjb', '7744023898@paytm', 'FPFeL5PXzW9bGosUjQYCxTHSMHidnygvvd', 'INR', '50000'))
             }
             if(frag.children.length === 0){
