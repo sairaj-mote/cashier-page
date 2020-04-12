@@ -58,7 +58,7 @@
             </svg>
             </button>
         </div>
-        <div class="popup-container solid-background hide">
+        <div class="popup-container solid-background">
             <div id="sign_in_popup" class="popup">
                 <div class="container-header">
                     <h1>Sign In</h1>
@@ -81,13 +81,6 @@
                 <p class="light-text">
                     Don't have private key, get it from <a href="https://flo-webwallet.duckdns.org/" target="_blank">here</a>.
                 </p>
-                <svg id="sign_in_illustration" viewBox="0 0 612 276.03">
-                  <defs><style>.a{fill:#ee2a7b;}.b{fill:#9e1f63;}.c{fill:#da1c5c;}</style></defs>
-                  <title>Untitled-1</title>
-                  <polygon class="a" points="0 0 0 276.03 195.07 207.16 233.66 0 0 0"/>
-                  <polygon class="b" points="114.09 0 117.19 27.93 356.1 132.63 536.42 0 114.09 0"/>
-                  <polygon class="c" points="480.49 0 538.11 99.8 612 99.8 612 0 480.49 0"/>
-                </svg>
             </div>
           </div> 
     <header id="main_header" class="flex">
@@ -103,7 +96,10 @@
             <h5>RanchiMall</h5>
             <h3>Local Bitcoin++</h3>
         </span>
-
+        <div id="display_balance">
+            <h5>Rupee Tokens</h5>
+            <h3 id="rtoken_balance">0</h3>
+        </div>
     </header>
     <nav id="navbar">
         <div title="See all cash deposit requests" id="deposit_page_btn" class="navbar-item active notification-dot" onclick="showPage(this, 'deposit')">
@@ -511,9 +507,11 @@
                           setTimeout(() => {
                             e.target.closest('.request').remove();
                             showMessage('', `Request id: ${depositRequestId} confirmed.`)
-                            if(container.children.length === 0)
+                            checkBalance();
+                            if(container.children.length === 0){
                                 document.getElementById('deposit_illustration').classList.remove('hide-completely')
                                 document.getElementById('search_deposit').classList.add('hide-completely')
+                            }
                           },1000)
                         }
                     })
@@ -590,6 +588,27 @@
             }
         }
 
+        let balDisplay = document.getElementById('rtoken_balance'),
+            userFloId = 'FCja6sLv58e3RMy41T5AmWyvXEWesqBCkX';
+        function checkBalance(){
+            fetch(`https://ranchimallflo.duckdns.org/api/v1.0/getFloAddressBalance?floAddress=${userFloId}&token=rupee`)
+            .then((response) => {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' +
+                    response.status);
+                    return;
+                }
+                // Examine the text in the response
+                response.json().then(function(data) {
+                    balDisplay.textContent = data.balance;
+                });
+            }
+            )
+            .catch(function(err) {
+                console.log('Fetch Error :-S', err);
+            });
+        }
+
         // exchange execute option functions
 
         function buyCrypto(btn){
@@ -623,6 +642,7 @@
               hidePopup(parentPopup)
               showMessage('', 'Signed In')
               document.querySelector('main').classList.remove('hide-completely')
+              document.getElementById('deposit_page_btn').click()
             }, 1000)
           //}
         }
@@ -636,6 +656,7 @@
                 }
             })
         }
+        checkBalance()
     </script>
 </body>
 </html>

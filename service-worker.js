@@ -1,9 +1,9 @@
-const staticCacheName = 'site-static-v1';
+/*const staticCacheName = 'site-static-v1';
 const assets = [
   './',
   './index.html',
   './css/main.css',
-  'https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap',
+  'https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap',
 ];
 // install event
 self.addEventListener('install', evt => {
@@ -33,3 +33,4 @@ self.addEventListener('fetch', evt => {
     })
   );
 });
+*/

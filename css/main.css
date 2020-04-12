@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap");
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -177,7 +177,7 @@ input:invalid {
 
 .loader {
   fill: none;
-  stroke-width: 6;
+  stroke-width: 10;
   stroke: var(--primary-color);
   height: 2rem;
   width: 2rem;
@@ -614,6 +614,7 @@ input:invalid {
       align-self: center;
   border-radius: 0.5em;
   width: calc(100vw - 2em);
+  background: no-repeat top url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 20 70 70'%3E%3Cdefs%3E%3Cstyle%3E.a%7Bfill:%2329abe2;%7D.b%7Bfill:%230071bc;%7D.c%7Bfill:%232e3192;%7D.d%7Bfill:none;%7D%3C/style%3E%3C/defs%3E%3Ctitle%3EUntitled-1%3C/title%3E%3Cpath class='a' d='M80,70V0H0C5,34,71,43,80,70Z' transform='translate(0 0.22)'/%3E%3Cpath class='b' d='M80,61V0H27S16.6,9.07,42,26C57,36,74,44,80,61Z' transform='translate(0 0.22)'/%3E%3Cpath class='c' d='M80,51V0H55s-5-2-5,6C50,20.14,75,37,80,51Z' transform='translate(0 0.22)'/%3E%3Crect class='d' x='21' width='59' height='57' transform='translate(101 57.22) rotate(180)'/%3E%3C/svg%3E");
 }
 
 #sign_in_popup h1 {
@@ -637,14 +638,6 @@ input:invalid {
   background: rgba(var(--text), 0.1);
 }
 
-#sign_in_popup #sign_in_illustration {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-
 .primary-btn {
   background: var(--primary-color);
   padding: 0.8em 1.6em;
@@ -659,10 +652,6 @@ input:invalid {
       -ms-flex-align: center;
           align-items: center;
   padding: 1em 0;
-  text-align: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
 }
 
 #main_header svg {
@@ -673,6 +662,18 @@ input:invalid {
   width: 3em;
   fill: none;
   margin-right: 0.4em;
+}
+
+#main_header #display_balance {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-left: auto;
+  text-align: right;
 }
 
 #navbar {
@@ -780,8 +781,6 @@ input:invalid {
 }
 
 .request h3, .request h4 {
-  font-weight: 400;
-  font-family: 'Roboto', sans-serif;
   margin-bottom: 1em;
 }
 
@@ -945,17 +944,17 @@ input:invalid {
   #navbar .navbar-item:hover h5 {
     color: #ddd;
   }
+  #navbar .navbar-item.active:hover .icon {
+    stroke: var(--primary-color);
+  }
+  #navbar .navbar-item.active:hover h5 {
+    color: var(--primary-color);
+  }
   .page {
     padding-bottom: 2em;
   }
   #sign_in_popup {
     width: 24rem;
-  }
-  #main_header {
-    -webkit-box-pack: left;
-        -ms-flex-pack: left;
-            justify-content: left;
-    text-align: left;
   }
   #send_token .input, #send_token .action {
     width: 24rem;
