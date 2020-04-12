@@ -1,7 +1,7 @@
 {
   "name": "local bitcoin++ cashier",
   "short_name": "LB++ cashier",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
   "Scope": "/",
   "start_url": "index.html",
