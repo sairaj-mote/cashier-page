@@ -54,7 +54,7 @@ button{
     }
     &:disabled{
         cursor: default;
-        background: rgba(var(--text-light), 0.4);
+        background: rgba(var(--text-light), 1);
     }
     &:disabled ~ .loader{
         opacity: 0;

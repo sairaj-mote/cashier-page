@@ -22,8 +22,8 @@
 </head>
 <body>
     <audio id="notification_sound">
-        <source src="https://rmservices.duckdns.org/files/notification-sound.ogg" type="audio/mpeg">
-        <source src="https://rmservices.duckdns.org/files/notification-sound.mp3" type="audio/ogg">
+        <source src="./notification.mp3" type="audio/mpeg">
+        <source src="./notification.ogg" type="audio/ogg">
       </audio>
         <div class="popup-container hide">
             <div id="confirmation" class="popup">
@@ -70,7 +70,7 @@
                         <label>Private Key</label>
                       </div>
                     <div class="action expand" onclick="signIn(this)">
-                      <button class="primary-btn expand" type="button" disabled>
+                      <button class="primary-btn expand" type="submit" disabled>
                           Sign In
                       </button>
                       <svg viewBox="0 0 73 73" class="loader">
@@ -78,9 +78,6 @@
                       </svg>
                     </div>
                 </form>
-                <p class="light-text">
-                    Don't have private key, get it from <a href="https://flo-webwallet.duckdns.org/" target="_blank">here</a>.
-                </p>
             </div>
           </div> 
     <header id="main_header" class="flex">
@@ -228,7 +225,7 @@
                     <label for="token_amount">Amount</label>
                 </div>
                 <div id="send-tokens_btn" class="action top-margin expand">
-                    <button class="primary-btn expand" type="button" disabled>
+                    <button class="primary-btn expand" type="submit" disabled>
                         Send
                     </button>
                     <svg viewBox="0 0 73 73" class="loader">
@@ -303,12 +300,12 @@
 
         //Checks for internet connection status
             if(!navigator.onLine) 
-                showMessage('error', 'There seems to be a problem connecting to the internet.', 'fixed')
+                showMessage('error', 'There seems to be a problem connecting to the internet.', 'fixed', true)
             window.addEventListener('offline', () =>{
-                showMessage('error', 'There seems to be a problem connecting to the internet.', 'fixed')
+                showMessage('error', 'There seems to be a problem connecting to the internet.', 'fixed', true)
             })
             window.addEventListener('online', () =>{
-                showMessage('', 'We are back online.')
+                showMessage('', 'We are back online.', '', true)
             }) 
             // function required for popups or modals to appear
             function showPopup(popup, permission){ 
@@ -359,7 +356,7 @@
             }
 
             //Function for displaying toast notifications. pass in error for mode param if you want to show an error.
-            function showMessage(mode, message, behavior){
+            function showMessage(mode, message, behavior, sound){
                 let banner = document.getElementById('show_message'),
                     back;
                 if(mode === 'error'){
@@ -375,8 +372,10 @@
                 banner.classList.add('no-transformations')
                 banner.classList.remove('hide')
                 banner.querySelector('#notification_text').textContent = message.charAt(0).toUpperCase() + message.slice(1);
-                if(navigator.onLine)
-                  notificationSound.play();
+                if(navigator.onLine && sound){
+                    notificationSound.currentTime = 0;
+                    notificationSound.play();
+                }
                 banner.querySelector('#hide_banner_btn').onclick = function() {
                     banner.classList.add('hide')
                     banner.classList.remove('no-transformations')
@@ -422,10 +421,12 @@
             if(typeof btn === 'string')
                 btn = document.getElementById(btn);
             if(option === 'start'){
+                btn.firstElementChild.focus();
                 btn.children[0].classList.add('clip')
                 btn.children[1].classList.add('animate-loader')
             }
             else{
+                disableBtn(btn.children[0])
                 btn.children[0].classList.remove('clip')
                 btn.children[1].classList.remove('animate-loader')
             }
@@ -481,7 +482,7 @@
                             parent.classList.remove('animate-label')
                         formValidation(parent.firstElementChild, e)
                         if(e.key === 'Enter'){
-                            parent.closest('form').querySelector(".action").click();
+                            parent.closest('form').querySelector("button[type='submit']").click();
                         }
                     }
                 })
@@ -490,8 +491,8 @@
                 form.addEventListener('blur', (e) => {
                     if(e.target.closest('.input')){
                         let parent = e.target.closest('.input');
-                    if(parent.firstElementChild.value === '')
-                        parent.classList.remove('animate-label')
+                        if(parent.firstElementChild.value === '')
+                            parent.classList.remove('animate-label')
                     }
                 }, true)
             })
@@ -506,7 +507,7 @@
                           btnLoading(e.target.closest('.confirm-deposit-btn'), 'start')
                           setTimeout(() => {
                             e.target.closest('.request').remove();
-                            showMessage('', `Request id: ${depositRequestId} confirmed.`)
+                            showMessage('', `Request id: ${depositRequestId} confirmed.`, '', true)
                             checkBalance();
                             if(container.children.length === 0){
                                 document.getElementById('deposit_illustration').classList.remove('hide-completely')
@@ -527,7 +528,7 @@
                           btnLoading(e.target.closest('.confirm-withdraw-btn'), 'start')
                           setTimeout(() => {
                             e.target.closest('.request').remove();
-                            showMessage('', `Request id: ${withdrawRequestId} confirmed.`)
+                            showMessage('', `Request id: ${withdrawRequestId} confirmed.`, '', true)
                             if(container.children.length === 0){
                                 document.getElementById('withdraw_illustration').classList.remove('hide-completely')
                                 document.getElementById('search_withdraw').classList.add('hide-completely')

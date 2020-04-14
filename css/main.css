@@ -70,7 +70,7 @@ button:focus {
 
 button:disabled {
   cursor: default;
-  background: rgba(var(--text-light), 0.4);
+  background: rgba(var(--text-light), 1);
 }
 
 button:disabled ~ .loader {
