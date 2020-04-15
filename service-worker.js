@@ -3,8 +3,6 @@ const assets = [
     './',
     './index.html',
     './css/main.css',
-    './notification.mp3',
-    './notification.ogg',
     'https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap',
 ];
 // install event
