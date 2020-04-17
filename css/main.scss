@@ -78,9 +78,9 @@ input:invalid{
     outline: none;
     box-shadow: none;
 }
-    ::-moz-focus-inner{
-        border: none;
-    }
+::-moz-focus-inner{
+    border: none;
+}
 .bottom-padding{
     padding-bottom: 1em;
 }
@@ -472,6 +472,10 @@ input:invalid{
             stroke-linecap: round;
             stroke-linejoin: round;
         }
+        h5{
+            font-size: 0.6em;
+            margin-top: 0.4em;
+        }
         .banking{
             stroke-width: 4;
         }
@@ -635,7 +639,9 @@ input:invalid{
             .icon{
                 height: 1.4rem;
                 width: 1.4rem;
-                margin-bottom: 0.4em;
+            }
+            h5{
+                font-size: 0.8em;
             }
             &:hover{
                 .icon{

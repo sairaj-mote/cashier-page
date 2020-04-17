@@ -147,7 +147,7 @@
             <h5>Cashier</h5>
         </div>
     </nav>
-    <main class="hide-completely">
+    <main class="">
         <section id="deposit" class="page">
             <div class="container-header">
                 <h2>Deposit Requests</h2>
@@ -476,7 +476,7 @@
         let allForms = document.querySelectorAll('form');
         window.addEventListener('load', ()=> {
             allForms.forEach((form) => {
-                form.addEventListener('keyup', (e) => {
+                form.addEventListener('input', (e) => {
                     if(e.target.closest('.input')){
                         let parent = e.target.closest('.input');
                         if(parent.firstElementChild.value !== '')

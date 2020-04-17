@@ -723,6 +723,11 @@ input:invalid {
   stroke-linejoin: round;
 }
 
+#navbar .navbar-item h5 {
+  font-size: 0.6em;
+  margin-top: 0.4em;
+}
+
 #navbar .navbar-item .banking {
   stroke-width: 4;
 }
@@ -936,7 +941,9 @@ input:invalid {
   #navbar .navbar-item .icon {
     height: 1.4rem;
     width: 1.4rem;
-    margin-bottom: 0.4em;
+  }
+  #navbar .navbar-item h5 {
+    font-size: 0.8em;
   }
   #navbar .navbar-item:hover .icon {
     stroke: #ddd;
