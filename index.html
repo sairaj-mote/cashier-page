@@ -5,29 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exchange Cashier</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" sizes="57x57" href="images/icons/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="images/icons/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/icons/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="images/icons/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/icons/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="images/icons/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="images/icons/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="images/icons/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/icons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="images/icons/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="images/icons/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/icons/favicon-16x16.png">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <audio id="notification_sound">
-        <source src="./notification.mp3" type="audio/mpeg">
-        <source src="./notification.ogg" type="audio/ogg">
-      </audio>
+        <source src="https://rmservices.duckdns.org/files/notification-sound.mp3" type="audio/mpeg">
+        <source src="https://rmservices.duckdns.org/files/notification-sound.ogg" type="audio/ogg">
+    </audio>
         <div class="popup-container hide">
             <div id="confirmation" class="popup">
                 <p></p>
@@ -246,11 +230,6 @@
             <button class="primary-btn top-margin" onclick="signOut()">Sign out</button>
         </section>
     </main>
-    <script>
-        if ('serviceWorker' in navigator) { 
-            navigator.serviceWorker.register('./service-worker.js')
-        }
-    </script>
     <script id="ui_functions">
         let frag = document.createDocumentFragment(),
             currentTimeout,
@@ -303,12 +282,12 @@
 
         //Checks for internet connection status
             if(!navigator.onLine) 
-                showMessage('error', 'There seems to be a problem connecting to the internet.', 'fixed', true)
+                notify('error', 'There seems to be a problem connecting to the internet.', 'fixed', true)
             window.addEventListener('offline', () =>{
-                showMessage('error', 'There seems to be a problem connecting to the internet.', 'fixed', true)
+                notify('error', 'There seems to be a problem connecting to the internet.', 'fixed', true)
             })
             window.addEventListener('online', () =>{
-                showMessage('', 'We are back online.', '', true)
+                notify('', 'We are back online.', '', true)
             }) 
             // function required for popups or modals to appear
             function showPopup(popup, permission){ 
@@ -359,7 +338,7 @@
             }
 
             //Function for displaying toast notifications. pass in error for mode param if you want to show an error.
-            function showMessage(mode, message, behavior, sound){
+            function notify(mode, message, behavior, sound){
                 let banner = document.getElementById('show_message'),
                     back;
                 if(mode === 'error'){
@@ -441,7 +420,7 @@
             let charCode = (typeof e.which == "undefined") ? e.keyCode : e.which,
                 charStr = String.fromCharCode(charCode);
 
-            if (!charStr.match(/^\d+$/))
+            if (!charStr.match(/[+-]?([0-9]*[.])?[0-9]+/))
                 e.preventDefault();
         }
 
@@ -510,7 +489,7 @@
                           btnLoading(e.target.closest('.confirm-deposit-btn'), 'start')
                           setTimeout(() => {
                             e.target.closest('.request').remove();
-                            showMessage('', `Request id: ${depositRequestId} confirmed.`, '', true)
+                            notify('', `Request id: ${depositRequestId} confirmed.`, '', true)
                             checkBalance();
                             if(container.children.length === 0){
                                 document.getElementById('deposit_illustration').classList.remove('hide-completely')
@@ -531,7 +510,7 @@
                           btnLoading(e.target.closest('.confirm-withdraw-btn'), 'start')
                           setTimeout(() => {
                             e.target.closest('.request').remove();
-                            showMessage('', `Request id: ${withdrawRequestId} confirmed.`, '', true)
+                            notify('', `Request id: ${withdrawRequestId} confirmed.`, '', true)
                             if(container.children.length === 0){
                                 document.getElementById('withdraw_illustration').classList.remove('hide-completely')
                                 document.getElementById('search_withdraw').classList.add('hide-completely')
@@ -627,11 +606,11 @@
             setTimeout(() => {
               btnLoading(btn, 'stop')
               hidePopup(parentPopup)
-              showMessage('', 'Bought Crypto')
+              notify('', 'Bought Crypto')
             }, 1000)
           //}
           /*else{
-              showMessage('error', 'Error message')
+              notify('error', 'Error message')
           }*/
         }
         
@@ -644,7 +623,7 @@
             setTimeout(() => {
               btnLoading(btn, 'stop')
               hidePopup(parentPopup)
-              showMessage('', 'Signed In')
+              notify('', 'Signed In')
               document.querySelector('main').classList.remove('hide-completely')
               document.getElementById('deposit_page_btn').click()
             }, 1000)
@@ -654,7 +633,7 @@
         function signOut(){
             askConfirmation('Do you want to sign out?').then((result) => {
                 if(result){
-                    showMessage('', 'Signed out')
+                    notify('', 'Signed out')
                     document.querySelector('main').classList.add('hide-completely')
                     showPopup('sign_in_popup')
                 }
